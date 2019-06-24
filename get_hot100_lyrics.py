@@ -38,10 +38,9 @@ base_url = "https://api.musixmatch.com/ws/1.1/"
 api_match_endpoint = "matcher.track.get"
 api_lyrics_endpoint = "track.lyrics.get"
 format_url = "?format=json&callback=callback"
-api_key = "&apikey=c56c251612909ec56b07b9411bd136b8"		#102da159729cf7e66c9be065ef0d88b0"
+api_key = "&apikey=" + config['mxm_api_key']
 # Azure Cognitive Services vars
-language_analytics_subscription_key = "decebe9ea7ea41a599be95ffac9e0e5e"
-sentiment_analytics_subscription_key = "d2e267f241c44ea380bb19e5d3cb9b0f"
+text_analytics_subscription_key = config['text_analytics_subscription_key']
 text_analytics_base_url = "https://eastus.api.cognitive.microsoft.com/text/analytics/v2.0/"
 max_docs = 200
 ########################
@@ -98,7 +97,7 @@ while chart.previousDate >= chart_start_date:
 					try:
 						mxm_id = mxm_match['message']['body']['track']['track_id']
 					except TypeError:
-						print(mxm_match)
+						pass
 
 					# Parse MXM returned track data and get genre
 					try:
@@ -174,7 +173,7 @@ while last < len(lyrics_list):
 		last += max_docs
 	# Format payload and send to API
 	documents = {"documents" : lyrics_list[first:last]}
-	lang_response = requests.post(language_api_url, headers={"Ocp-Apim-Subscription-Key": language_analytics_subscription_key}, json=documents)
+	lang_response = requests.post(language_api_url, headers={"Ocp-Apim-Subscription-Key": text_analytics_subscription_key}, json=documents)
 	# Get and parse API Response
 	languages = lang_response.json()
 	try:
@@ -213,7 +212,7 @@ while last < len(lyrics_list):
 		last += max_docs
 	# Format payload and send to API
 	documents = {"documents" : lyrics_list[first:last]}
-	sent_response = requests.post(sentiment_api_url, headers={"Ocp-Apim-Subscription-Key": sentiment_analytics_subscription_key}, json=documents)
+	sent_response = requests.post(sentiment_api_url, headers={"Ocp-Apim-Subscription-Key": text_analytics_subscription_key}, json=documents)
 	# Get and parse API Response
 	sentiments = sent_response.json()
 	try:
@@ -250,7 +249,7 @@ while write_to_db != 'y':
 # Start write to SQL DB
 print()
 print(" Writing Data to Azure SQL DB...")
-sqlConnStr = pyodbc.connect('DRIVER={ODBC Driver 13 for SQL Server}; SERVER='+config['db_server']+'; DATABASE='+config['db']+'; UID='+config['username']+'; PWD='+config['password'])
+sqlConnStr = pyodbc.connect('DRIVER={ODBC Driver 13 for SQL Server}; SERVER='+config['db_server']+'; DATABASE='+config['db']+'; UID='+config['db_username']+'; PWD='+config['db_password'])
 cursor = sqlConnStr.cursor()
 i = 0
 l = len(df)
