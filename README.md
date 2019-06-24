@@ -1,13 +1,19 @@
 # Billboard Hot 100 Sentiment Analysis
 
-A simple game based on an idea from [this AskReddit Thread](https://www.reddit.com/r/AskReddit/comments/920c2b/whats_a_drinking_game_you_can_play_with_the_front/) (credit to u/mujump)
-
-Game pulls top 100 monthly posts from r/TheOnion and r/NotTheOnion (stores 200 total posts), randomizes a headline, and prompts the user to guess if it is real or fake.
+Script to pull a (mostly) unique list of all songs to ever apear on the Billboard Hot 100 List.  
+Lyrics for all these songs are then pulled from the MusixMatch API.  
+Those lyrics are run through Language Detection using Azure Cognitive Services.  
+The lyrics and their corresponding language are passed to Sentiment Analysis using Azure Cognitive Services.  
+A second script was written to supplement the previously gathered dataset with song release date (This should have been included in the original script, but I didn't think of it at the time until I realized that "latest chart date" is not an accurate way of showing what I was trying to show)  
 
 ## Prerequisites
 
+* SQL DB (This code used an Azure SQL DB, but any DB will do)
 * Python 3 - http://www.python.org
-* SQL DB (This code used an Azure SQL DB, but any )
+* Packages:
+    * `pip install pyodbc`
+    * `pip install pandas`
+    * `pip install billboard.py`
 
 ## Getting Started
 
