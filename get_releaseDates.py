@@ -42,6 +42,7 @@ print(' Getting and Assigning Track Release Dates...')
 l=len(df)
 printProgressBar(0,l)
 
+# Start loop through all returned records from query above
 for index,row in df.iterrows():
 
     printProgressBar(index, l)
