@@ -10,10 +10,7 @@ A second script was written to supplement the previously gathered dataset with s
 
 * SQL DB (This code used an Azure SQL DB, but any DB will do)
 * Python 3 - http://www.python.org
-* Packages:
-    * `pip install pyodbc`
-    * `pip install pandas`
-    * `pip install billboard.py`
+* Packages: `pip install requirements.txt`
 
 ## Getting Started
 
